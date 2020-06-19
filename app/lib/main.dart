@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:ffi'; // For FFI
+import 'dart:io'; // For Platform.isX
 
 void main() {
   runApp(MyApp());
@@ -53,6 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
+    final DynamicLibrary nativeAddLib = Platform.isAndroid
+        ? DynamicLibrary.open("libnative_add.so")
+        : DynamicLibrary.process();
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
